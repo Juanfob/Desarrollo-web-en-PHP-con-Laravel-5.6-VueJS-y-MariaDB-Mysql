@@ -21,7 +21,7 @@ class CategoriaController extends Controller
         $criterio = $request->criterio;
 
         if ($buscar==''){
-            $categorias = Categoria::orderBy('id', 'desc')->paginate(3);
+            $categorias = Categoria::orderBy('id', 'desc')->paginate(5);
         }
         else{
             $categorias = Categoria::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(3);
@@ -40,6 +40,16 @@ class CategoriaController extends Controller
         ]);
     }
 
+    public function selectCategoria(Request $request){
+        if (!$request->ajax()) return redirect('/');
+        // Filtramos con where para condicion = 1, es decir todas las categorias
+        // que la condicion sea 1 - activo
+        $categorias = Categoria::where('condicion','=','1')
+            ->select('id','nombre')->orderBy('nombre','asc')->get();
+
+        // Devolvemos en un objeto llamado categorias todas las categorias cuya condicion where sea 1.
+        return ['categorias' => $categorias];
+    }
 
     /**
      * Store a newly created resource in storage.

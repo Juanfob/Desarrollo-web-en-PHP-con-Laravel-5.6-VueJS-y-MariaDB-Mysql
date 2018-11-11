@@ -9,4 +9,9 @@ class Categoria extends Model
     //protected $table = 'categorias';
     //protected $primaryKey = 'id';
     protected $fillable=['nombre', 'descripcion', 'condicion'];
+
+    // Función para relacionar uno a muchos (una categoria tiene muchos articulos)
+    public function articulos(){
+        return $this->hasMany('App\Articulo');
+    }
 }

@@ -5,11 +5,11 @@
         </template>
 
         <template v-if="menu==1">
-            <categoria></categoria>
+            <categoria></categoria> <!-- Hace referencia al componente Categoria.vue-->
         </template>
 
         <template v-if="menu==2">
-            <h1>Contenido menú 2</h1>
+            <articulo></articulo>
         </template>
 
         <template v-if="menu==3">
@@ -25,7 +25,7 @@
         </template>
 
         <template v-if="menu==6">
-            <h1>Contenido menú 6</h1>
+            <cliente></cliente>
         </template>
 
         <template v-if="menu==7">
