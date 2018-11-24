@@ -17,7 +17,7 @@
         </template>
 
         <template v-if="menu==4">
-            <h1>Contenido menú 4</h1>
+            <proveedor></proveedor>
         </template>
 
         <template v-if="menu==5">
@@ -33,7 +33,7 @@
         </template>
 
         <template v-if="menu==8">
-            <h1>Contenido menú 8</h1>
+            <rol></rol>
         </template>
 
         <template v-if="menu==9">
