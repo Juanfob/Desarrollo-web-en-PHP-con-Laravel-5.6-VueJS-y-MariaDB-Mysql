@@ -17,6 +17,7 @@ class User extends Authenticatable
     protected $fillable = [
         'id', 'usuario', 'password','condicion','idrol'
     ];
+    
     public $timestamps = false;
 
     /**
@@ -35,4 +36,6 @@ class User extends Authenticatable
     public function persona(){
         return $this->belongsTo('App\Persona');
     }
+
+
 }

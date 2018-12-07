@@ -22,10 +22,9 @@ Vue.component('proveedor', require('./components/Proveedor.vue'));
 Vue.component('rol', require('./components/Rol.vue'));
 Vue.component('user', require('./components/User.vue'));
 
-
 const app = new Vue({
     el: '#app',
-    data: {
+    data :{
         menu : 0
     }
 });

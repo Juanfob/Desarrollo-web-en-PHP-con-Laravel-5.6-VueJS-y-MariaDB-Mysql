@@ -19,15 +19,16 @@ class CategoriaController extends Controller
 
         $buscar = $request->buscar;
         $criterio = $request->criterio;
-
+        
         if ($buscar==''){
-            $categorias = Categoria::orderBy('id', 'desc')->paginate(5);
+            $categorias = Categoria::orderBy('id', 'desc')->paginate(3);
         }
         else{
             $categorias = Categoria::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(3);
         }
+        
 
-        return response([
+        return [
             'pagination' => [
                 'total'        => $categorias->total(),
                 'current_page' => $categorias->currentPage(),
@@ -37,17 +38,13 @@ class CategoriaController extends Controller
                 'to'           => $categorias->lastItem(),
             ],
             'categorias' => $categorias
-        ]);
+        ];
     }
 
     public function selectCategoria(Request $request){
         if (!$request->ajax()) return redirect('/');
-        // Filtramos con where para condicion = 1, es decir todas las categorias
-        // que la condicion sea 1 - activo
         $categorias = Categoria::where('condicion','=','1')
-            ->select('id','nombre')->orderBy('nombre','asc')->get();
-
-        // Devolvemos en un objeto llamado categorias todas las categorias cuya condicion where sea 1.
+        ->select('id','nombre')->orderBy('nombre', 'asc')->get();
         return ['categorias' => $categorias];
     }
 
@@ -66,7 +63,7 @@ class CategoriaController extends Controller
         $categoria->condicion = '1';
         $categoria->save();
     }
-
+  
 
     /**
      * Update the specified resource in storage.
@@ -78,26 +75,28 @@ class CategoriaController extends Controller
     public function update(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
-        $catgoria = Categoria::findOrFail($request->id);
-        $catgoria->nombre = $request->nombre;
-        $catgoria->descripcion = $request->descripcion;
-        $catgoria->condicion = '1';
-        $catgoria->save();
+        $categoria = Categoria::findOrFail($request->id);
+        $categoria->nombre = $request->nombre;
+        $categoria->descripcion = $request->descripcion;
+        $categoria->condicion = '1';
+        $categoria->save();
     }
 
     public function desactivar(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
-        $catgoria = Categoria::findOrFail($request->id);
-        $catgoria->condicion = '0';
-        $catgoria->save();
+        $categoria = Categoria::findOrFail($request->id);
+        $categoria->condicion = '0';
+        $categoria->save();
     }
 
     public function activar(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
-        $catgoria = Categoria::findOrFail($request->id);
-        $catgoria->condicion = '1';
-        $catgoria->save();
+        $categoria = Categoria::findOrFail($request->id);
+        $categoria->condicion = '1';
+        $categoria->save();
     }
+
+    
 }

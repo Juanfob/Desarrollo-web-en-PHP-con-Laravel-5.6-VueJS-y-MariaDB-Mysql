@@ -13,14 +13,14 @@ class ClienteController extends Controller
 
         $buscar = $request->buscar;
         $criterio = $request->criterio;
-
+        
         if ($buscar==''){
             $personas = Persona::orderBy('id', 'desc')->paginate(3);
         }
         else{
             $personas = Persona::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(3);
         }
-
+        
 
         return [
             'pagination' => [
@@ -61,5 +61,4 @@ class ClienteController extends Controller
         $persona->email = $request->email;
         $persona->save();
     }
-
 }

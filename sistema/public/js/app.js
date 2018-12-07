@@ -34430,10 +34430,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -34498,10 +34494,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 me.arrayCategoria = respuesta.categorias.data;
                 me.pagination = respuesta.pagination;
             }).catch(function (error) {
-                // handle error
                 console.log(error);
-            }).then(function () {
-                // always executed
             });
         },
         cambiarPagina: function cambiarPagina(page, buscar, criterio) {
@@ -34512,12 +34505,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             me.listarCategoria(page, buscar, criterio);
         },
         registrarCategoria: function registrarCategoria() {
-            // indica si validarCategorias es 1
             if (this.validarCategoria()) {
                 return;
             }
-            // Si validarCategoria devuelve 0 ejecutamos el codigo de abajo
+
             var me = this;
+
             axios.post('/categoria/registrar', {
                 'nombre': this.nombre,
                 'descripcion': this.descripcion
@@ -34526,16 +34519,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 me.listarCategoria(1, '', 'nombre');
             }).catch(function (error) {
                 console.log(error);
-                alert(error);
             });
         },
         actualizarCategoria: function actualizarCategoria() {
-            // indica si validarCategorias es 1
             if (this.validarCategoria()) {
                 return;
             }
-            // Si validarCategoria devuelve 0 ejecutamos el codigo de abajo
+
             var me = this;
+
             axios.put('/categoria/actualizar', {
                 'nombre': this.nombre,
                 'descripcion': this.descripcion,
@@ -34545,34 +34537,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 me.listarCategoria(1, '', 'nombre');
             }).catch(function (error) {
                 console.log(error);
-                alert(error);
             });
         },
-        desactivarCateroria: function desactivarCateroria(id) {
+        desactivarCategoria: function desactivarCategoria(id) {
             var _this = this;
 
-            var swalWithBootstrapButtons = swal.mixin({
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
-                buttonsStyling: false
-            });
-
-            swalWithBootstrapButtons({
-                title: '¿Está seguro de desactivar esta categoria?',
+            swal({
+                title: 'Esta seguro de desactivar esta categoría?',
                 type: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Confirmar',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar!',
                 cancelButtonText: 'Cancelar',
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false,
                 reverseButtons: true
             }).then(function (result) {
                 if (result.value) {
-
                     var me = _this;
+
                     axios.put('/categoria/desactivar', {
                         'id': id
                     }).then(function (response) {
                         me.listarCategoria(1, '', 'nombre');
-                        swalWithBootstrapButtons('Desactivado!', 'El registro ha sido desactivado con éxito.', 'success');
+                        swal('Desactivado!', 'El registro ha sido desactivado con éxito.', 'success');
                     }).catch(function (error) {
                         console.log(error);
                     });
@@ -34581,31 +34571,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 result.dismiss === swal.DismissReason.cancel) {}
             });
         },
-        activarCateroria: function activarCateroria(id) {
+        activarCategoria: function activarCategoria(id) {
             var _this2 = this;
 
-            var swalWithBootstrapButtons = swal.mixin({
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
-                buttonsStyling: false
-            });
-
-            swalWithBootstrapButtons({
-                title: '¿Está seguro de activar esta categoria?',
+            swal({
+                title: 'Esta seguro de activar esta categoría?',
                 type: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Confirmar',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar!',
                 cancelButtonText: 'Cancelar',
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false,
                 reverseButtons: true
             }).then(function (result) {
                 if (result.value) {
-
                     var me = _this2;
+
                     axios.put('/categoria/activar', {
                         'id': id
                     }).then(function (response) {
                         me.listarCategoria(1, '', 'nombre');
-                        swalWithBootstrapButtons('activado!', 'El registro ha sido activado con éxito.', 'success');
+                        swal('Activado!', 'El registro ha sido activado con éxito.', 'success');
                     }).catch(function (error) {
                         console.log(error);
                     });
@@ -34618,7 +34607,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.errorCategoria = 0;
             this.errorMostrarMsjCategoria = [];
 
-            if (!this.nombre) this.errorMostrarMsjCategoria.push("El nombre de la categoría no puede estar vacio");
+            if (!this.nombre) this.errorMostrarMsjCategoria.push("El nombre de la categoría no puede estar vacío.");
+
             if (this.errorMostrarMsjCategoria.length) this.errorCategoria = 1;
 
             return this.errorCategoria;
@@ -34629,10 +34619,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.nombre = '';
             this.descripcion = '';
         },
-        abrirModal: function abrirModal(model, accion) {
+        abrirModal: function abrirModal(modelo, accion) {
             var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
-            switch (model) {
+            switch (modelo) {
                 case "categoria":
                     {
                         switch (accion) {
@@ -34649,7 +34639,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                 {
                                     //console.log(data);
                                     this.modal = 1;
-                                    this.tituloModal = 'Actualizar Categoría';
+                                    this.tituloModal = 'Actualizar categoría';
                                     this.tipoAccion = 2;
                                     this.categoria_id = data['id'];
                                     this.nombre = data['nombre'];
@@ -34821,7 +34811,7 @@ var render = function() {
                           },
                           [_c("i", { staticClass: "icon-pencil" })]
                         ),
-                        _vm._v("  \n                            "),
+                        _vm._v("  \n                                "),
                         categoria.condicion
                           ? [
                               _c(
@@ -34831,7 +34821,7 @@ var render = function() {
                                   attrs: { type: "button" },
                                   on: {
                                     click: function($event) {
-                                      _vm.desactivarCateroria(categoria.id)
+                                      _vm.desactivarCategoria(categoria.id)
                                     }
                                   }
                                 },
@@ -34846,7 +34836,7 @@ var render = function() {
                                   attrs: { type: "button" },
                                   on: {
                                     click: function($event) {
-                                      _vm.activarCateroria(categoria.id)
+                                      _vm.activarCategoria(categoria.id)
                                     }
                                   }
                                 },
@@ -35059,11 +35049,7 @@ var render = function() {
                               _vm.nombre = $event.target.value
                             }
                           }
-                        }),
-                        _vm._v(" "),
-                        _c("span", { staticClass: "help-block" }, [
-                          _vm._v("(*) Ingrese el nombre de la categoría")
-                        ])
+                        })
                       ])
                     ]),
                     _vm._v(" "),
@@ -35090,7 +35076,7 @@ var render = function() {
                           staticClass: "form-control",
                           attrs: {
                             type: "email",
-                            placeholder: "Descripción de la categoria"
+                            placeholder: "Ingrese descripción"
                           },
                           domProps: { value: _vm.descripcion },
                           on: {
@@ -35116,7 +35102,7 @@ var render = function() {
                             expression: "errorCategoria"
                           }
                         ],
-                        staticClass: "form-group row"
+                        staticClass: "form-group row div-error"
                       },
                       [
                         _c(
@@ -35178,7 +35164,7 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("Actualizar ")]
+                      [_vm._v("Actualizar")]
                     )
                   : _vm._e()
               ])
@@ -35494,6 +35480,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -35636,7 +35624,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             swal({
-                title: 'Esta seguro de desactivar esta articulo?',
+                title: 'Esta seguro de desactivar este artículo?',
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -35668,7 +35656,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             swal({
-                title: 'Esta seguro de activar este articulo?',
+                title: 'Esta seguro de activar este artículo?',
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -38546,7 +38534,7 @@ var render = function() {
                           },
                           [_c("i", { staticClass: "icon-pencil" })]
                         ),
-                        _vm._v("  \n                            "),
+                        _vm._v("  \n                                "),
                         articulo.condicion
                           ? [
                               _c(
@@ -38876,7 +38864,11 @@ var render = function() {
                                 options: { format: "EAN-13" }
                               }
                             },
-                            [_vm._v("Generando Código de barras.")]
+                            [
+                              _vm._v(
+                                "\n                                    Generando código de barras.    \n                                "
+                              )
+                            ]
                           )
                         ],
                         1
@@ -41689,6 +41681,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -41751,10 +41745,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 me.arrayRol = respuesta.roles.data;
                 me.pagination = respuesta.pagination;
             }).catch(function (error) {
-                // handle error
                 console.log(error);
-            }).then(function () {
-                // always executed
             });
         },
         cambiarPagina: function cambiarPagina(page, buscar, criterio) {
@@ -42322,23 +42313,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             persona_id: 0,
             nombre: '',
-            tipo_documento: 'DNI',
+            tipo_documento: '',
             num_documento: '',
             direccion: '',
             telefono: '',
             email: '',
             usuario: '',
             password: '',
-            idrol: 0,
+            idrol: '',
             arrayPersona: [],
             arrayRol: [],
             modal: 0,
@@ -42404,6 +42392,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var me = this;
             var url = '/rol/selectRol';
             axios.get(url).then(function (response) {
+                //console.log(response);
                 var respuesta = response.data;
                 me.arrayRol = respuesta.roles;
             }).catch(function (error) {
@@ -42431,9 +42420,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 'direccion': this.direccion,
                 'telefono': this.telefono,
                 'email': this.email,
+                'idrol': this.idrol,
                 'usuario': this.usuario,
-                'password': this.password,
-                'idrol': this.idrol
+                'password': this.password
 
             }).then(function (response) {
                 me.cerrarModal();
@@ -42456,9 +42445,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 'direccion': this.direccion,
                 'telefono': this.telefono,
                 'email': this.email,
+                'idrol': this.idrol,
                 'usuario': this.usuario,
                 'password': this.password,
-                'idrol': this.idrol,
                 'id': this.persona_id
             }).then(function (response) {
                 me.cerrarModal();
@@ -42471,11 +42460,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.errorPersona = 0;
             this.errorMostrarMsjPersona = [];
 
-            if (!this.nombre) this.errorMostrarMsjPersona.push("El nombre de la persona no puede estar vacío.");
+            if (!this.nombre) this.errorMostrarMsjPersona.push("El nombre de la pesona no puede estar vacío.");
             if (!this.usuario) this.errorMostrarMsjPersona.push("El nombre de usuario no puede estar vacío.");
-            if (!this.password) this.errorMostrarMsjPersona.push("El password no puede estar vacío.");
-            if (this.idrol == 0) this.errorMostrarMsjPersona.push("Debes seleccionar un rol para el usuario.");
-
+            if (!this.password) this.errorMostrarMsjPersona.push("La password del usuario no puede estar vacía.");
+            if (this.idrol == 0) this.errorMostrarMsjPersona.push("Seleccione una Role.");
             if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
 
             return this.errorPersona;
@@ -42769,7 +42757,7 @@ var render = function() {
                           },
                           [_c("i", { staticClass: "icon-pencil" })]
                         ),
-                        _vm._v(" \n                                "),
+                        _vm._v("  \n                                "),
                         persona.condicion
                           ? [
                               _c(
@@ -42833,7 +42821,9 @@ var render = function() {
                       domProps: { textContent: _vm._s(persona.usuario) }
                     }),
                     _vm._v(" "),
-                    _c("td", { domProps: { textContent: _vm._s(persona.rol) } })
+                    _c("td", {
+                      domProps: { textContent: _vm._s(persona.role) }
+                    })
                   ])
                 })
               )
@@ -42988,7 +42978,7 @@ var render = function() {
                           staticClass: "col-md-3 form-control-label",
                           attrs: { for: "text-input" }
                         },
-                        [_vm._v("Nombre (*)")]
+                        [_vm._v("Nombre(*)")]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
@@ -43026,7 +43016,7 @@ var render = function() {
                           staticClass: "col-md-3 form-control-label",
                           attrs: { for: "text-input" }
                         },
-                        [_vm._v("Tipo Documento")]
+                        [_vm._v("Tipo documento")]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
@@ -43067,6 +43057,10 @@ var render = function() {
                               _vm._v("RUC")
                             ]),
                             _vm._v(" "),
+                            _c("option", { attrs: { value: "CEDULA" } }, [
+                              _vm._v("CEDULA")
+                            ]),
+                            _vm._v(" "),
                             _c("option", { attrs: { value: "PASS" } }, [
                               _vm._v("PASS")
                             ])
@@ -43080,9 +43074,9 @@ var render = function() {
                         "label",
                         {
                           staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
+                          attrs: { for: "email-input" }
                         },
-                        [_vm._v("Número")]
+                        [_vm._v("Número documento")]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
@@ -43097,7 +43091,7 @@ var render = function() {
                           ],
                           staticClass: "form-control",
                           attrs: {
-                            type: "text",
+                            type: "email",
                             placeholder: "Número de documento"
                           },
                           domProps: { value: _vm.num_documento },
@@ -43134,7 +43128,7 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", placeholder: "Dirección" },
+                          attrs: { type: "email", placeholder: "Dirección" },
                           domProps: { value: _vm.direccion },
                           on: {
                             input: function($event) {
@@ -43169,7 +43163,7 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", placeholder: "Teléfono" },
+                          attrs: { type: "email", placeholder: "Teléfono" },
                           domProps: { value: _vm.telefono },
                           on: {
                             input: function($event) {
@@ -43225,7 +43219,7 @@ var render = function() {
                           staticClass: "col-md-3 form-control-label",
                           attrs: { for: "email-input" }
                         },
-                        [_vm._v("Rol (*)")]
+                        [_vm._v("Role")]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
@@ -43258,16 +43252,18 @@ var render = function() {
                             }
                           },
                           [
-                            _c("option", { attrs: { value: "0" } }, [
-                              _vm._v("Seleccione un rol")
-                            ]),
+                            _c(
+                              "option",
+                              { attrs: { value: "0", disabled: "" } },
+                              [_vm._v("Seleccione")]
+                            ),
                             _vm._v(" "),
-                            _vm._l(_vm.arrayRol, function(rol) {
+                            _vm._l(_vm.arrayRol, function(role) {
                               return _c("option", {
-                                key: rol.id,
+                                key: role.id,
                                 domProps: {
-                                  value: rol.id,
-                                  textContent: _vm._s(rol.nombre)
+                                  value: role.id,
+                                  textContent: _vm._s(role.nombre)
                                 }
                               })
                             })
@@ -43284,7 +43280,7 @@ var render = function() {
                           staticClass: "col-md-3 form-control-label",
                           attrs: { for: "email-input" }
                         },
-                        [_vm._v("Usuario (*)")]
+                        [_vm._v("Usuario")]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
@@ -43300,7 +43296,7 @@ var render = function() {
                           staticClass: "form-control",
                           attrs: {
                             type: "text",
-                            placeholder: "Nombre de usuario"
+                            placeholder: "Nombre del usuario"
                           },
                           domProps: { value: _vm.usuario },
                           on: {
@@ -43322,7 +43318,7 @@ var render = function() {
                           staticClass: "col-md-3 form-control-label",
                           attrs: { for: "email-input" }
                         },
-                        [_vm._v("Password (*)")]
+                        [_vm._v("password")]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
@@ -43338,7 +43334,7 @@ var render = function() {
                           staticClass: "form-control",
                           attrs: {
                             type: "password",
-                            placeholder: "Password de acceso"
+                            placeholder: "password del usuario"
                           },
                           domProps: { value: _vm.password },
                           on: {
@@ -43470,7 +43466,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Usuario")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Rol")])
+        _c("th", [_vm._v("Role")])
       ])
     ])
   }

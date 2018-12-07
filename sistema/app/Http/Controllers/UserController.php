@@ -1,44 +1,34 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\User;
-use App\Persona;
-use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\User;
+use App\Persona;
 
 class UserController extends Controller
 {
     public function index(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
+        //if (!$request->ajax()) return redirect('/');
 
         $buscar = $request->buscar;
         $criterio = $request->criterio;
-
+        
         if ($buscar==''){
-            // unimos la tabla User con la tabla persona, enlazando el campo
-            // users.id con el campo personas.id
             $personas = User::join('personas','users.id','=','personas.id')
-                ->join('roles','users.idrol','=','roles.id') // Lo mismo con la tabla roles
-                ->select('personas.id','personas.nombre','personas.tipo_documento',
-                    'personas.num_documento','personas.direccion','personas.telefono',
-                    'personas.email','users.usuario','users.password',
-                    'users.condicion','users.idrol','roles.nombre as rol')
-                ->orderBy('personas.id', 'desc')->paginate(3);
+            ->join('roles','users.idrol','=','roles.id')
+            ->select('personas.id','personas.nombre','personas.tipo_documento','personas.num_documento','personas.direccion','personas.telefono','personas.email','users.usuario','users.password','users.condicion','users.idrol','roles.nombre as rol')
+            ->orderBy('personas.id', 'desc')->paginate(3);
         }
         else{
             $personas = User::join('personas','users.id','=','personas.id')
-                ->join('roles','users.idrol','=','roles.id')
-                ->select('personas.id','personas.nombre','personas.tipo_documento',
-                    'personas.num_documento','personas.direccion','personas.telefono',
-                    'personas.email','users.usuario','users.password',
-                    'users.condicion','users.idrol','roles.nombre as rol')
-                ->where('personas.'.$criterio, 'like', '%'. $buscar . '%')
-                ->orderBy('personas.id', 'desc')->paginate(3);
+            ->join('roles','users.idrol','=','roles.id')
+            ->select('personas.id','personas.nombre','personas.tipo_documento','personas.num_documento','personas.direccion','personas.telefono','personas.email','users.usuario','users.password','users.condicion','users.idrol','roles.nombre as rol')
+            ->where('personas.'.$criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(3);
         }
-
-
+        
         return [
             'pagination' => [
                 'total'        => $personas->total(),
@@ -58,6 +48,7 @@ class UserController extends Controller
 
         try{
             DB::beginTransaction();
+
             $persona = new Persona();
             $persona->nombre = $request->nombre;
             $persona->tipo_documento = $request->tipo_documento;
@@ -68,23 +59,17 @@ class UserController extends Controller
             $persona->save();
 
             $user = new User();
+            $user->id = $persona->id;
+            $user->idrol = $request->idrol;
             $user->usuario = $request->usuario;
             $user->password = bcrypt( $request->password);
-            $user->condicion = '1';
-            $user->idrol = $request->idrol;
-
-            $user->id = $persona->id;
-
+            $user->condicion = '1';            
             $user->save();
 
             DB::commit();
-
         } catch (Exception $e){
             DB::rollBack();
         }
-
-
-
     }
 
     public function update(Request $request)
@@ -94,11 +79,8 @@ class UserController extends Controller
         try{
             DB::beginTransaction();
 
-            //Buscar primero el proveedor a modificar
             $user = User::findOrFail($request->id);
-
             $persona = Persona::findOrFail($user->id);
-
             $persona->nombre = $request->nombre;
             $persona->tipo_documento = $request->tipo_documento;
             $persona->num_documento = $request->num_documento;
@@ -107,20 +89,17 @@ class UserController extends Controller
             $persona->email = $request->email;
             $persona->save();
 
-
+            
             $user->usuario = $request->usuario;
             $user->password = bcrypt( $request->password);
             $user->condicion = '1';
             $user->idrol = $request->idrol;
             $user->save();
 
-
             DB::commit();
-
         } catch (Exception $e){
             DB::rollBack();
         }
-
     }
 
     public function desactivar(Request $request)

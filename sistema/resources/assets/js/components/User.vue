@@ -39,7 +39,7 @@
                                     <th>Teléfono</th>
                                     <th>Email</th>
                                     <th>Usuario</th>
-                                    <th>Rol</th>
+                                    <th>Role</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,7 +47,7 @@
                                     <td>
                                         <button type="button" @click="abrirModal('persona','actualizar',persona)" class="btn btn-warning btn-sm">
                                           <i class="icon-pencil"></i>
-                                        </button>&nbsp;
+                                        </button> &nbsp;
                                         <template v-if="persona.condicion">
                                             <button type="button" class="btn btn-danger btn-sm" @click="desactivarUsuario(persona.id)">
                                                 <i class="icon-trash"></i>
@@ -66,7 +66,7 @@
                                     <td v-text="persona.telefono"></td>
                                     <td v-text="persona.email"></td>
                                     <td v-text="persona.usuario"></td>
-                                    <td v-text="persona.rol"></td>
+                                    <td v-text="persona.role"></td>
                                 </tr>                                
                             </tbody>
                         </table>
@@ -100,37 +100,38 @@
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Nombre (*)</label>
+                                    <label class="col-md-3 form-control-label" for="text-input">Nombre(*)</label>
                                     <div class="col-md-9">
                                         <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de la persona">                                        
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Tipo Documento</label>
+                                    <label class="col-md-3 form-control-label" for="text-input">Tipo documento</label>
                                     <div class="col-md-9">
                                         <select v-model="tipo_documento" class="form-control">
                                             <option value="DNI">DNI</option>
                                             <option value="RUC">RUC</option>
+                                            <option value="CEDULA">CEDULA</option>
                                             <option value="PASS">PASS</option>
-                                        </select>                                    
+                                        </select>                                        
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Número</label>
+                                    <label class="col-md-3 form-control-label" for="email-input">Número documento</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="num_documento" class="form-control" placeholder="Número de documento">                                        
+                                        <input type="email" v-model="num_documento" class="form-control" placeholder="Número de documento">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="email-input">Dirección</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="direccion" class="form-control" placeholder="Dirección">
+                                        <input type="email" v-model="direccion" class="form-control" placeholder="Dirección">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="email-input">Teléfono</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="telefono" class="form-control" placeholder="Teléfono">
+                                        <input type="email" v-model="telefono" class="form-control" placeholder="Teléfono">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -140,30 +141,26 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Rol (*)</label>
+                                    <label class="col-md-3 form-control-label" for="email-input">Role</label>
                                     <div class="col-md-9">
-                                        <select class="form-control" v-model="idrol">
-                                            <option value="0">Seleccione un rol</option>
-                                            <option v-for="rol in arrayRol" :key="rol.id" :value="rol.id" v-text="rol.nombre">
-
-                                            </option>
+                                        <select v-model="idrol" class="form-control">
+                                            <option value="0" disabled>Seleccione</option>
+                                            <option v-for="role in arrayRol" :key="role.id" :value="role.id" v-text="role.nombre"></option>
                                         </select>
                                     </div>
                                 </div>
-                                
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Usuario (*)</label>
+                                    <label class="col-md-3 form-control-label" for="email-input">Usuario</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="usuario" class="form-control" placeholder="Nombre de usuario">
+                                        <input type="text" v-model="usuario" class="form-control" placeholder="Nombre del usuario">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Password (*)</label>
+                                    <label class="col-md-3 form-control-label" for="email-input">password</label>
                                     <div class="col-md-9">
-                                        <input type="password" v-model="password" class="form-control" placeholder="Password de acceso">
+                                        <input type="password" v-model="password" class="form-control" placeholder="password del usuario">
                                     </div>
                                 </div>
-
                                 <div v-show="errorPersona" class="form-group row div-error">
                                     <div class="text-center text-error">
                                         <div v-for="error in errorMostrarMsjPersona" :key="error" v-text="error">
@@ -194,14 +191,14 @@
             return {
                 persona_id: 0,
                 nombre : '',
-                tipo_documento : 'DNI',
+                tipo_documento : '',
                 num_documento : '',
                 direccion : '',
                 telefono : '',
                 email : '',
-                usuario : '',
-                password : '',
-                idrol : 0,
+                usuario: '',
+                password:'',
+                idrol: '',
                 arrayPersona : [],
                 arrayRol : [],
                 modal : 0,
@@ -268,6 +265,7 @@
                 let me=this;
                 var url= '/rol/selectRol';
                 axios.get(url).then(function (response) {
+                    //console.log(response);
                     var respuesta= response.data;
                     me.arrayRol = respuesta.roles;
                 })
@@ -275,6 +273,7 @@
                     console.log(error);
                 });
             },
+
             cambiarPagina(page,buscar,criterio){
                 let me = this;
                 //Actualiza la página actual
@@ -296,9 +295,9 @@
                     'direccion' : this.direccion,
                     'telefono' : this.telefono,
                     'email' : this.email,
+                    'idrol' : this.idrol,
                     'usuario': this.usuario,
-                    'password': this.password,
-                    'idrol' : this.idrol
+                    'password': this.password
 
                 }).then(function (response) {
                     me.cerrarModal();
@@ -321,9 +320,9 @@
                     'direccion' : this.direccion,
                     'telefono' : this.telefono,
                     'email' : this.email,
+                    'idrol' : this.idrol,
                     'usuario': this.usuario,
                     'password': this.password,
-                    'idrol' : this.idrol,
                     'id': this.persona_id
                 }).then(function (response) {
                     me.cerrarModal();
@@ -331,16 +330,15 @@
                 }).catch(function (error) {
                     console.log(error);
                 }); 
-            },            
+            },
             validarPersona(){
                 this.errorPersona=0;
                 this.errorMostrarMsjPersona =[];
 
-                if (!this.nombre) this.errorMostrarMsjPersona.push("El nombre de la persona no puede estar vacío.");
+                if (!this.nombre) this.errorMostrarMsjPersona.push("El nombre de la pesona no puede estar vacío.");
                 if (!this.usuario) this.errorMostrarMsjPersona.push("El nombre de usuario no puede estar vacío.");
-                if (!this.password) this.errorMostrarMsjPersona.push("El password no puede estar vacío.");
-                if (this.idrol==0) this.errorMostrarMsjPersona.push("Debes seleccionar un rol para el usuario.");
-
+                if (!this.password) this.errorMostrarMsjPersona.push("La password del usuario no puede estar vacía.");
+                if (this.idrol==0) this.errorMostrarMsjPersona.push("Seleccione una Role.");
                 if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
 
                 return this.errorPersona;
@@ -358,7 +356,6 @@
                 this.password='';
                 this.idrol=0;
                 this.errorPersona=0;
-
             },
             abrirModal(modelo, accion, data = []){
                 this.selectRol();
@@ -396,8 +393,8 @@
                                 this.telefono = data['telefono'];
                                 this.email = data['email'];
                                 this.usuario = data['usuario'];
-                                this.password = data['password'];
-                                this.idrol = data['idrol'];
+                                this.password=data['password'];
+                                this.idrol=data['idrol'];
                                 break;
                             }
                         }
@@ -481,7 +478,7 @@
                     
                 }
                 }) 
-            }
+            },
         },
         mounted() {
             this.listarPersona(1,this.buscar,this.criterio);

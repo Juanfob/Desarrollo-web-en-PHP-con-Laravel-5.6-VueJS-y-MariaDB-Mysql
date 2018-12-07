@@ -7,27 +7,25 @@ use App\Articulo;
 
 class ArticuloController extends Controller
 {
-
     public function index(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
 
         $buscar = $request->buscar;
         $criterio = $request->criterio;
-
+        
         if ($buscar==''){
-            //Con el método Join unimos a la tabla categoría
             $articulos = Articulo::join('categorias','articulos.idcategoria','=','categorias.id')
-                ->select('articulos.id','articulos.idcategoria','articulos.codigo','articulos.nombre','categorias.nombre as nombre_categoria','articulos.precio_venta','articulos.stock','articulos.descripcion','articulos.condicion')
-                ->orderBy('articulos.id', 'desc')->paginate(3);
+            ->select('articulos.id','articulos.idcategoria','articulos.codigo','articulos.nombre','categorias.nombre as nombre_categoria','articulos.precio_venta','articulos.stock','articulos.descripcion','articulos.condicion')
+            ->orderBy('articulos.id', 'desc')->paginate(3);
         }
         else{
             $articulos = Articulo::join('categorias','articulos.idcategoria','=','categorias.id')
-                ->select('articulos.id','articulos.idcategoria','articulos.codigo','articulos.nombre','categorias.nombre as nombre_categoria','articulos.precio_venta','articulos.stock','articulos.descripcion','articulos.condicion')
-                ->where('articulos.'.$criterio, 'like', '%'. $buscar . '%')
-                ->orderBy('articulos.id', 'desc')->paginate(3);
+            ->select('articulos.id','articulos.idcategoria','articulos.codigo','articulos.nombre','categorias.nombre as nombre_categoria','articulos.precio_venta','articulos.stock','articulos.descripcion','articulos.condicion')
+            ->where('articulos.'.$criterio, 'like', '%'. $buscar . '%')
+            ->orderBy('articulos.id', 'desc')->paginate(3);
         }
-
+        
 
         return [
             'pagination' => [
@@ -41,7 +39,7 @@ class ArticuloController extends Controller
             'articulos' => $articulos
         ];
     }
-
+    
     public function store(Request $request)
     {
         if (!$request->ajax()) return redirect('/');

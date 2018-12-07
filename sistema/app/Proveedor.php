@@ -18,4 +18,5 @@ class Proveedor extends Model
         return $this->belongsTo('App\Persona');
     }
 
+
 }
